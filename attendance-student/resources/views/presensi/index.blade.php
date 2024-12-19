@@ -8,8 +8,8 @@
         <p>Tidak ada murid yang login.</p>
     @endif
         
-    <table>
-        <thead>
+    <table class="table table-bordered">
+        <thead style="text-align: center">
             <tr>
                 <th>ID</th>
                 <th>Kelas</th>
