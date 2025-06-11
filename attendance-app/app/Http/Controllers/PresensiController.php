@@ -53,15 +53,10 @@ class PresensiController extends Controller
 
     public function index()
     {
-        // Ambil data presensi dari database
-        $presensi = Presensi::with('kelas')->get(); // Pastikan relasi 'kelas' ada jika digunakan
-
-        // Kembalikan respon dalam format JSON
-        return response()->json([
-            'status' => 'success',
-            'data' => $presensi,
-        ]);
+        $presensi = Presensi::with(['kelas', 'detailPresensi'])->get();
+        return view('presensi.index', compact('presensi'));
     }
+
 
     public function edit($id)
     {
