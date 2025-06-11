@@ -32,6 +32,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('presensi.create') }}">Buat Absensi</a>
                     </li>
+                    <li>
+                         @if (Auth::check())
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit">Logout</button>
+                        </form>
+                        @endif
+                    </li>
                 </ul>
             </div>
         </div>
@@ -57,6 +65,9 @@
 
         @yield('content')
     </div>
+
+
+
 
     <!-- Tambahkan JavaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
