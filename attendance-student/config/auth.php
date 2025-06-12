@@ -43,7 +43,7 @@ return [
 
     'murid' => [
         'driver' => 'session',
-        'provider' => 'murid',
+        'provider' => 'murids',
     ],
 ],
 
@@ -70,7 +70,7 @@ return [
         'model' => App\Models\User::class,
     ],
 
-    'murid' => [
+    'murids' => [
         'driver' => 'eloquent',
         'model' => App\Models\Murid::class,
     ],

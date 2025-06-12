@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PresensiController;
 use App\Http\Controllers\DetailPresensiController;
 use App\Http\Controllers\AuthController;
+use App\Http\Middleware\IsGuru;
 
-Route::middleware(['auth', 'isGuru'])->group(function () {
+Route::middleware(['auth', IsGuru::class])->group(function () {
     Route::get('/presensi/create', [PresensiController::class, 'create'])->name('presensi.create');
     Route::post('/presensi', [PresensiController::class, 'store'])->name('presensi.store');
     Route::get('/presensi/{id}/edit', [PresensiController::class, 'edit'])->name('presensi.edit');

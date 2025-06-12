@@ -12,6 +12,7 @@ class CreateMuridTable extends Migration
             $table->id('id_murid');
             $table->string('nama', 100);
             $table->unsignedBigInteger('kelas_id');
+            $table->string('role')->default('siswa');
             $table->timestamps();
 
             $table->foreign('kelas_id')->references('id')->on('kelas')->onDelete('cascade');

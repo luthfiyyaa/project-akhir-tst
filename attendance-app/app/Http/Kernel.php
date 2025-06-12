@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
 {
+    
     protected $middleware = [
         // middleware global
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
@@ -33,7 +34,9 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth' => \App\Http\Middleware\Authenticate::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'isGuru' => \App\Http\Middleware\IsGuru::class,
+        'cekGuru' => \App\Http\Middleware\IsGuru::class,
         // tambahkan middleware lainnya di sini
     ];
+
+    
 }

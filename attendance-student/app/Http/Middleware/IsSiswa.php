@@ -9,10 +9,13 @@ class IsSiswa
 {
     public function handle($request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->role === 'siswa') {
+        $user = Auth::guard('murid')->user();
+
+        if ($user && $user->role === 'siswa') {
             return $next($request);
         }
 
-        abort(403, 'Akses ditolak. Bukan siswa.');
+        abort(403, 'Akses tidak diizinkan.');
     }
 }
+

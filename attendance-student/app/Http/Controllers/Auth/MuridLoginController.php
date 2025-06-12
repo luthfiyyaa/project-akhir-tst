@@ -45,7 +45,7 @@ class MuridLoginController extends Controller
 
         if ($murid) {
             // Jika murid ditemukan, login menggunakan Auth
-            Auth::login($murid);
+            Auth::guard('murid')->login($murid);
 
             // Logging keberhasilan login (opsional)
             \Log::info('Murid berhasil login:', [
@@ -70,7 +70,7 @@ class MuridLoginController extends Controller
     public function logout()
     {
         // Logout menggunakan Auth
-        Auth::logout();
+        Auth::guard('murid')->logout();
 
         // Redirect ke halaman login
         return redirect()->route('login')

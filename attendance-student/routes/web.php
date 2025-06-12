@@ -4,9 +4,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
 
 use App\Http\Controllers\Auth\MuridLoginController;
+use App\Http\Middleware\IsSiswa;
 use App\Http\Controllers\PresensiController;
 
-Route::middleware(['auth', 'isSiswa'])->prefix('student')->group(function () {
+Route::middleware(['auth:murid', IsSiswa::class])->group(function () {
+    
     Route::get('/presensi', function () {
         $response = Http::get('http://127.0.0.1:8000/presensi');
         return view('presensi.index', ['presensi' => $response->json()]);

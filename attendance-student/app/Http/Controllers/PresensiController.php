@@ -35,13 +35,15 @@ class PresensiController extends Controller
 
     public function presensi()
     {
-        $murid = Auth::user();  // Mengambil murid yang sedang login
-        $presensi = Http::get('http://127.0.0.1:8000/presensi');  // Ambil presensi berdasarkan murid yang login
+        $murid = Auth::guard('murid')->user();
 
-        if ($murid) {
-            Auth::login($murid);
-            dd(Auth::user()); // Periksa apakah data murid tersedia setelah login
-            return view('presensi.index', ['presensi' => $presensi]);
+        if (!$murid) {
+            return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
         }
+
+        $response = Http::get('http://127.0.0.1:8000/presensi');
+
+        return view('presensi.index', ['presensi' => $response->json()]);
     }
+
 }
