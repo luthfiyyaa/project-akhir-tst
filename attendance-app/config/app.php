@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'guards' => [
+        'api' => [
+            'driver' => 'token',
+            'provider' => 'murids',
+        ],
+        'murid' => [
+            'driver' => 'session',
+            'provider' => 'murids',
+        ],
+    ],
+
+
 ];

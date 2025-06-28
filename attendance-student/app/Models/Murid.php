@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Murid extends Authenticatable
 {
     protected $table = 'murid'; // Sesuaikan dengan nama tabel yang ada di database
-    protected $fillable = ['nama', 'kelas_id', 'role']; // Sesuaikan dengan kolom yang ada
+    protected $fillable = ['nama', 'kelas_id', 'role', 'api_token'];
+
+    protected $primaryKey = 'id_murid';
+
 
     public function presensi()
     {

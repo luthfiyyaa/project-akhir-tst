@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Murid;
 use App\Models\Kelas;
+use Illuminate\Support\Str;
 
 class MuridLoginController extends Controller
 {
@@ -44,21 +45,17 @@ class MuridLoginController extends Controller
             ->first();
 
         if ($murid) {
-            // Jika murid ditemukan, login menggunakan Auth
+            $murid->api_token = Str::random(60);
+            $murid->save();
+
             Auth::guard('murid')->login($murid);
 
-            // Logging keberhasilan login (opsional)
-            \Log::info('Murid berhasil login:', [
-                'id'   => $murid->id,
-                'nama' => $murid->nama
-            ]);
+            session(['api_token' => $murid->api_token]);
 
-            // Redirect ke halaman presensi setelah login berhasil
             return redirect()->route('presensi.index')
-                ->with('success', 'Login berhasil. Selamat datang, ' . $murid->nama);
+                ->with('success', 'Login berhasil.');
         }
 
-        // Jika murid tidak ditemukan, kembali ke halaman login dengan pesan error
         return back()->withErrors([
             'error' => 'Nama atau kelas salah, silakan coba lagi.',
         ]);

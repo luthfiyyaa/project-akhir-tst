@@ -2,11 +2,12 @@
 
 @section('content')
     <h1>Daftar Presensi</h1>
-        @if(Auth::check())
-        <p>Login berhasil. Nama murid: {{ Auth::user()->nama }}</p>
-    @else
-        <p>Tidak ada murid yang login.</p>
-    @endif
+        @if(isset($murid['nama']))
+            <p>Login berhasil. Nama murid: {{ $murid['nama'] }}</p>
+        @else
+            <p>Tidak ada murid yang login.</p>
+        @endif
+
         
     <table class="table table-bordered">
         <thead style="text-align: center">

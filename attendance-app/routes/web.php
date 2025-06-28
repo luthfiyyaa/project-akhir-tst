@@ -19,12 +19,12 @@ Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login.post');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi.index');
+Route::get('/', [PresensiController::class, 'index'])->name('presensi.index');
 Route::get('/presensi/{id}/detail', [PresensiController::class, 'show'])->name('presensi.show');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Route::get('/presensi', [PresensiController::class, 'index'])->name('presensi.index');
 // Route::get('/presensi/create', [PresensiController::class, 'create'])->name('presensi.create');
