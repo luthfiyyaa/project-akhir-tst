@@ -21,4 +21,9 @@ class Presensi extends Model
     {
         return $this->belongsTo(Kelas::class, 'kelas_id', 'id');
     }
+
+    public function murid()
+    {
+        return $this->belongsTo(Murid::class);  // Menghubungkan dengan model Murid
+    }
 }

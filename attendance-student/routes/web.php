@@ -10,33 +10,18 @@ use App\Http\Controllers\PresensiController;
 
 
 Route::middleware(['web'])->group(function () {
-    Route::get('/', function () {
-        $token = session('api_token');
-
-        $presensi = Http::withToken($token)
-            ->get('http://127.0.0.1:8000/api/presensi')
-            ->json();
-
-        $murid = Http::withToken($token)
-            ->get('http://127.0.0.1:8000/api/user')
-            ->json();
-
-        return view('presensi.index', [
-            'presensi' => $presensi,
-            'murid' => $murid,
-        ]);
-    })->name('presensi.index');
-
-
+    Route::get('/', [PresensiController::class, 'index'])->name('presensi.index');
 
     Route::middleware(['auth:murid', IsSiswa::class])->group(function () {
-        Route::get('/presensi/{id}/detail', function ($id) {
-            $response = Http::get("http://127.0.0.1:8000/presensi/{$id}/detail");
-            return view('presensi.detail', ['detail' => $response->json()]);
-        })->name('presensi.show');
+        Route::get('/presensi/{id}/detail', [PresensiController::class, 'show'])
+            ->name('presensi.show');
+
+        Route::put('/detail-presensi/{id}', [PresensiController::class, 'updateDetail'])
+            ->name('detail-presensi.update');
     });
 
     Route::get('login', [MuridLoginController::class, 'showLoginForm'])->name('login');
     Route::post('login', [MuridLoginController::class, 'login'])->middleware('throttle:5,1');
     Route::post('logout', [MuridLoginController::class, 'logout'])->name('logout');
 });
+

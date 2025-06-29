@@ -3,7 +3,7 @@
 @section('content')
     <h1>Daftar Presensi</h1>
         @if(isset($murid['nama']))
-            <p>Login berhasil. Nama murid: {{ $murid['nama'] }}</p>
+            <p>Login berhasil. <br> Nama murid: {{ $murid['nama'] }}</p>
         @else
             <p>Tidak ada murid yang login.</p>
         @endif
@@ -22,9 +22,9 @@
             @if (!empty($presensi) && is_array($presensi))
                 @foreach ($presensi as $p)
                     <tr>
-                        <td>{{ $p['id_presensi'] ?? 'Tidak Ada'}}</td>
-                        <td>{{ $p['kelas']['nama_kelas'] ?? 'Tidak Ada' }}</td>
-                        <td>{{ $p['tanggal'] ?? 'Tidak Ada'}}</td>
+                        <td>{{ $p['id_presensi'] ?? 'Tidak Ada' }}</td>
+                        <td>{{ $p['kelas_id'] ?? 'Tidak Ada' }}</td>
+                        <td>{{ $p['tanggal'] ?? 'Tidak Ada' }}</td>
                         <td>
                             <a href="{{ isset($p['id_presensi']) ? route('presensi.show', $p['id_presensi']) : '#' }}">Lihat Detail</a>
                         </td>
