@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Presensi')
+
 @section('content')
 <div class="container">
     <h1>Daftar Presensi</h1>
@@ -28,7 +30,11 @@
                     </td>
                     <td>
                         <a href="{{ route('presensi.edit', $data->id_presensi) }}" class="btn btn-outline-info btn-sm">Edit</a>
-                        <a href="{{ route('presensi.delete', $data->id_presensi) }}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        <form action="{{ route('presensi.delete', $data->id_presensi) }}" method="POST" style="display: inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin ingin menghapus data ini?')">Delete</button>
+                        </form>
                     </td>
                         
                 </tr>

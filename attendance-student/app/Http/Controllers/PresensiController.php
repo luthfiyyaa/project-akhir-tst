@@ -14,6 +14,14 @@ class PresensiController extends Controller
     {
         $token = session('api_token');
 
+        if (!$token) {
+            // Belum login
+            return view('presensi.index', [
+                'murid' => null,
+                'presensi' => []
+            ]);
+        }
+
         $muridResponse = Http::withToken($token)
             ->get('http://127.0.0.1:8000/api/user')
             ->json();
@@ -31,46 +39,54 @@ class PresensiController extends Controller
     public function show($id)
     {
         $token = session('api_token');
+        $muridId = session('murid_id');
 
         $response = Http::withToken($token)
-            ->get("http://127.0.0.1:8000/api/presensi/{$id}/detail");
+            ->get("http://127.0.0.1:8000/api/detail-presensi/{$id}");
 
-        $data = $response->json();
+        if (!$response->successful()) {
+            return redirect()->back()->with('error', 'Data tidak ditemukan.');
+        }
 
-        return view('presensi.show', [
-            'detail' => $data
-        ]);
+        $detail = $response->json();
+
+        // Filter hanya murid yang login
+        $filteredMurid = collect($detail['murid'] ?? [])->filter(function ($m) use ($muridId) {
+            return $m['id_murid'] == $muridId;
+        })->values()->toArray();
+
+        // Ganti isian murid di array detail
+        $detail['murid'] = $filteredMurid;
+
+        return view('presensi.show', compact('detail'));
     }
+
 
     public function updateDetail(Request $request, $id)
     {
         $token = session('api_token');
+        $muridId = session('murid_id');
 
-        $response = Http::withToken($token)
+        if (!$muridId) {
+            return redirect()->back()->with('error', 'Murid tidak ditemukan di session.');
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:hadir,sakit,izin',
+        ]);
+
+        $updateResponse = Http::withToken($token)
             ->put("http://127.0.0.1:8000/api/detail-presensi/{$id}", [
-                'status' => $request->input('status')
+                'status' => $validated['status'],
+                'id_murid' => $muridId,
             ]);
 
-        if ($response->successful()) {
-            return redirect()->back()->with('success', 'Presensi updated!');
+        if ($updateResponse->successful()) {
+            return redirect()->back()->with('success', 'Presensi berhasil diupdate!');
         } else {
-            return redirect()->back()->with('error', 'Update failed.');
+            return redirect()->back()->with('error', 'Update gagal dilakukan.');
         }
     }
 
-
-
-    public function presensi()
-    {
-        $murid = Auth::guard('murid')->user();
-
-        if (!$murid) {
-            return redirect()->route('login')->withErrors(['error' => 'Silakan login terlebih dahulu']);
-        }
-
-        $response = Http::get('http://127.0.0.1:8000/presensi');
-
-        return view('presensi.index', ['presensi' => $response->json()]);
-    }
 
 }

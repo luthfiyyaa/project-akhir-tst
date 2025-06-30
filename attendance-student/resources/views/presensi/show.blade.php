@@ -1,9 +1,11 @@
 @extends('layouts.app')
 
+@section('title', 'Detail Presensi')
+
 @section('content')
     <h1>Detail Presensi</h1>
 
-    @if (!empty($detail))
+    @if (!empty($detail) && isset($detail['murid']))
         <p>ID Presensi: {{ $detail['id_presensi'] }}</p>
         <p>Kelas: {{ $detail['kelas']['nama_kelas'] ?? 'Tidak Ada' }}</p>
         <p>Tanggal: {{ $detail['tanggal'] }}</p>
@@ -14,31 +16,33 @@
                 <tr>
                     <th>Nama Murid</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($detail['murid'] ?? [] as $murid)
-                    <tr>
-                        <td>{{ $murid['nama'] }}</td>
-                        <td>{{ $murid['status'] }}</td>
-                    </tr>
+                @foreach ($detail['murid'] as $murid)
+                <tr>
+                    <td>{{ $murid['nama'] }}</td>
+                    <td>{{ $murid['status'] }}</td>
+                    <td>
+                        <form method="POST" action="{{ route('detail-presensi.update', $murid['id_detail_presensi']) }}" class="d-flex gap-2">
+                            @csrf
+                            @method('PUT')
+                            <select name="status" class="form-select form-select-sm w-auto" required>
+                                <option value="hadir" {{ $murid['status'] == 'hadir' ? 'selected' : '' }}>Hadir</option>
+                                <option value="sakit" {{ $murid['status'] == 'sakit' ? 'selected' : '' }}>Sakit</option>
+                                <option value="izin" {{ $murid['status'] == 'izin' ? 'selected' : '' }}>Izin</option>
+                            </select>
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="bi bi-check-circle"></i> Update
+                            </button>
+                        </form>
+
+                    </td>
+                </tr>
                 @endforeach
             </tbody>
         </table>
-
-        <h3>Isi Presensi:</h3>
-        <form method="POST" action="{{ route('detail-presensi.update', $detail['id_presensi']) }}">
-            @csrf
-            @method('PUT')
-            <input type="hidden" name="id_murid" value="{{ session('murid_id') }}">
-            <label>Status:</label>
-            <select name="status" required>
-                <option value="hadir">Hadir</option>
-                <option value="alpha">Alpha</option>
-                <option value="izin">Izin</option>
-            </select>
-            <button type="submit" class="btn btn-primary mt-2">Simpan Presensi</button>
-        </form>
     @else
         <p>Tidak ada data detail presensi.</p>
     @endif

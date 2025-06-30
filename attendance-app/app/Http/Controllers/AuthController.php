@@ -29,7 +29,7 @@ class AuthController extends Controller
                 ]);
             }
 
-            return redirect()->intended('/presensi');
+            return redirect()->intended('/');
         }
 
         return back()->withErrors([

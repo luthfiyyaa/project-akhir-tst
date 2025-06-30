@@ -50,7 +50,11 @@ class MuridLoginController extends Controller
 
             Auth::guard('murid')->login($murid);
 
-            session(['api_token' => $murid->api_token]);
+            // SIMPAN KE SESSION
+            session([
+                'api_token' => $murid->api_token,
+                'murid_id' => $murid->id_murid
+            ]);
 
             return redirect()->route('presensi.index');
         }
@@ -58,7 +62,7 @@ class MuridLoginController extends Controller
         return back()->withErrors([
             'error' => 'Nama atau kelas salah, silakan coba lagi.',
         ]);
-}
+    }
 
 
     /**

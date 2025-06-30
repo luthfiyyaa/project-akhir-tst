@@ -20,7 +20,7 @@
     <!-- Navbar -->
     <nav class="navbar" style="background-color: #e3f2fd;">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Aplikasi Absensi</a>
+            <a class="navbar-brand" href="/">Aplikasi Absensi SMAN 1 Brawijaya</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,14 +32,28 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('presensi.create') }}">Buat Absensi</a>
                     </li>
-                    <li>
-                         @if (Auth::check())
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit">Logout</button>
-                        </form>
+                    <li class="nav-item">
+                        @if (Auth::check())
+                            <span class="nav-link disabled">
+                                Login sebagai: <strong>{{ Auth::user()->nama ?? Auth::user()->name }}</strong>
+                            </span>
+                        @else
+                            <span class="nav-link disabled">
+                                Belum login
+                            </span>
                         @endif
                     </li>
+                    <li class="nav-item">
+                        @if (Auth::check())
+                            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                                @csrf
+                                <button type="submit" class="btn btn-sm btn-danger">Logout</button>
+                            </form>
+                        @else
+                            <a href="{{ route('login') }}" class="btn btn-sm btn-primary">Login</a>
+                        @endif
+                    </li>
+
                 </ul>
             </div>
         </div>

@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+@section('title', 'Daftar Presensi')
+
 @section('content')
     <h1>Daftar Presensi</h1>
-        @if(isset($murid['nama']))
+        @if($murid && !empty($murid['nama']))
             <p>Login berhasil. <br> Nama murid: {{ $murid['nama'] }}</p>
         @else
             <p>Tidak ada murid yang login.</p>
@@ -26,7 +28,11 @@
                         <td>{{ $p['kelas_id'] ?? 'Tidak Ada' }}</td>
                         <td>{{ $p['tanggal'] ?? 'Tidak Ada' }}</td>
                         <td>
-                            <a href="{{ isset($p['id_presensi']) ? route('presensi.show', $p['id_presensi']) : '#' }}">Lihat Detail</a>
+                            <a href="{{ isset($p['id_presensi']) ? route('presensi.show', $p['id_presensi']) : '#' }}"
+                            class="btn btn-primary btn-sm">
+                                <i class="bi bi-eye"></i> Lihat Detail
+                            </a>
+
                         </td>
                     </tr>
                 @endforeach

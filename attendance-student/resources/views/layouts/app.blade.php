@@ -7,6 +7,8 @@
     <title>@yield('title', 'Presensi SMAN 1')</title>
     <!-- Tambahkan CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
     <style>
         body {
             padding: 20px;
@@ -22,7 +24,7 @@
         <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Presensi SMAN 1</a>
+        <a class="navbar-brand" href="#">Presensi SMAN 1 Brawijaya</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>

@@ -11,7 +11,7 @@ Route::middleware(['auth', IsGuru::class])->group(function () {
     Route::post('/presensi', [PresensiController::class, 'store'])->name('presensi.store');
     Route::get('/presensi/{id}/edit', [PresensiController::class, 'edit'])->name('presensi.edit');
     Route::put('/presensi/{id}', [PresensiController::class, 'update'])->name('presensi.update');
-    Route::get('/presensi/{id}', [PresensiController::class, 'destroy'])->name('presensi.delete');
+    Route::delete('/presensi/{id}', [PresensiController::class, 'destroy'])->name('presensi.delete');
     Route::put('/detail-presensi/{id}', [DetailPresensiController::class, 'update'])->name('detail-presensi.update');
 });
 

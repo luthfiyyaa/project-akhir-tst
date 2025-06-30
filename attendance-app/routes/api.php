@@ -57,10 +57,20 @@ Route::get('/presensi/{id}/detail', function ($id, Request $request) {
 });
 
 Route::put('/detail-presensi/{id}', function (Request $request, $id) {
+    $murid = Murid::where('api_token', $request->bearerToken())->first();
+
+    if (!$murid) {
+        return response()->json(['message' => 'Unauthorized'], 401);
+    }
+
     $detail = DetailPresensi::find($id);
 
     if (!$detail) {
         return response()->json(['message' => 'Not found'], 404);
+    }
+
+    if ($detail->id_murid != $murid->id_murid) {
+        return response()->json(['message' => 'Forbidden'], 403);
     }
 
     $detail->status = $request->input('status');
@@ -68,6 +78,7 @@ Route::put('/detail-presensi/{id}', function (Request $request, $id) {
 
     return response()->json(['message' => 'Updated', 'data' => $detail]);
 });
+
 
 
 Route::get('/detail-presensi/{id}', function ($id) {
@@ -85,13 +96,14 @@ Route::get('/detail-presensi/{id}', function ($id) {
         'tanggal' => $presensi->tanggal,
         'murid' => $presensi->detailPresensi->map(function ($detail) {
             return [
+                'id_detail_presensi' => $detail->id_detail_presensi,   
+                'id_murid' => $detail->id_murid,
                 'nama' => $detail->murid->nama ?? '-',
                 'status' => $detail->status
             ];
         }),
     ]);
 });
-
 
 
 Route::get('/user', function (Request $request) {
